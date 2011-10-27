@@ -1,0 +1,19 @@
+RewriteEngine on 
+RewriteBase /
+
+# Give preference to existing files.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Force trailing slash.
+RewriteRule ^(.+[^/])$ $1/ [L]
+
+# Example: Adding an additional controller.
+# RewriteRule ^controller/((.+)/$)? controller.php?_action=$1 [L,QSA]
+
+RewriteRule ^admin/(.+)/$ admin/index.php?_action=$1 [L,QSA]
+RewriteRule ^admin/$ admin/index.php [L,QSA]
+
+# Pass everything else through the index controller.
+RewriteRule ^(.+)/$ index.php?_action=$1 [L,QSA]
+

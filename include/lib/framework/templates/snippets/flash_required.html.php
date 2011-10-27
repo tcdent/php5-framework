@@ -1,0 +1,1 @@
+<p style="text-align:center;">Please ensure you are using the latest <a href="http://get.adobe.com/flashplayer/">Flash Player</a><noscript> and have JavaScript enabled</noscript>.</p>
