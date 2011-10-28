@@ -41,7 +41,7 @@ class Upload {
     protected function parse_extensions($extensions){
         if(is_array($extensions))
             return $extensions;
-        return array_map('trim', explode(',', $extensions))
+        return array_map('trim', explode(',', $extensions));
     }
     
     public function is_allowed_extension(){
@@ -56,7 +56,7 @@ class Upload {
         
         $content = file_get_contents($this->tmp_name);
         $info = new finfo(FILEINFO_MIME);
-        return strncmp($info->buffer($content), 'image', strlen('image'));
+        return (0 == strncmp($info->buffer($content), 'image', strlen('image')));
     }
     
     public function move_to($destination){

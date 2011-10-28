@@ -28,7 +28,7 @@ abstract class Controller {
         }
     }
     
-    protected function __call($action, $attrs){
+    public function __call($action, $attrs){
         return $this->__default($action, $attrs);
     }
     
@@ -60,8 +60,8 @@ abstract class Controller {
     protected function method_is_requestable($method){
         if(!method_exists($this, $method))
             return FALSE;
-        $method = new ReflectionMethod($this, $method);
-        return $method->isPublic();
+        $reflection = new ReflectionMethod($this, $method);
+        return $reflection->isPublic();
     }
     
     protected function get_path_name(){

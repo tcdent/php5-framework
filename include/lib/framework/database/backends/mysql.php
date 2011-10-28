@@ -14,10 +14,8 @@ class Database_MySQLConnector extends Database_Connector {
     public function query(){
         $arguments = func_get_args();
         $query = array_shift($arguments);
-        
         if(count($arguments))
-            $query = sprintf($query, $arguments);
-        
+            $query = vsprintf($query, $arguments);
         return mysql_query($query, $this->connection);
     }
     

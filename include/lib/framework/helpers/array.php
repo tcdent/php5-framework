@@ -177,7 +177,7 @@ function join_path($array, $separator=DIRECTORY_SEPARATOR){
     if(!is_array($array))
         throw new ArgumentException("First parameter must be array.");
     
-    $trim_slashes = create_function('&$v, $k, $s', '$v = trim($v, $s);');
+    $trim_slashes = create_function('&$v, $k, $s', '$v = rtrim($v, $s);');
     array_walk($array, $trim_slashes, $separator);
     return implode(array_values($array), $separator);
 }
