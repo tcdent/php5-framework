@@ -15,10 +15,10 @@ abstract class Controller {
             if($this->__before($action) === FALSE)
                 return;
             
-            if($this->method_is_requestable($action))
-                $this->{$action}();
-            elseif($this->method_is_requestable($request_method))
+            if($this->method_is_requestable($request_method))
                 $this->{$request_method}($action);
+            elseif($this->method_is_requestable($action))
+                $this->{$action}();
             else
                 $this->__default($action);
             
@@ -92,25 +92,31 @@ abstract class Controller {
     }
     
     protected function exception($exception){
-        if(DEBUG){
-            $this->layout = FALSE;
-            return $this->render('exception', 
-                array('exception' => $exception));
-        }
+        if(DEBUG)
+            return render('exception', array('exception' => $exception), FALSE);
         elseif($exception instanceof FileNotFoundException)
-            return $this->__404($exception);
+            return $this->not_found($exception);
         else
-            return $this->__500($exception);
+            return $this->server_error($exception);
     }
     
-    protected function __404($exception=NULL){
-        header("HTTP/1.0 404 Not Found");
-        $this->render('404', array('exception' => $exception));
+    protected function render_error($status_code, $message){
+        header("HTTP/1.1 ${status_code}");
+        return $this->render('error', array(
+            'title' => $status_code, 
+            'message' => (string) $message));
     }
     
-    protected function __500($exception=NULL){
-        header("HTTP/1.0 500 Internal Server Error");
-        $this->render('500', array('exception' => $exception));
+    protected function bad_request($message="Bad request."){
+        return $this->render_error("400 Bad Request", $message);
+    }
+    
+    protected function not_found($message="The requested item does not exist."){
+        return $this->render_error("404 Not Found", $message);
+    }
+    
+    protected function server_error($message="There was an error processing your request."){
+        return $this->render_error("500 Internal Server Error", $message);
     }
 }
 
